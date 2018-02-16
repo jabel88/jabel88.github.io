@@ -55,20 +55,54 @@
     #menu a.active:hover {
         background: #3074a4;
     }
+    #mapes {
+        background: #a3c6d4;
+        position: relative;
+        z-index: 1;
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        border-radius: 3px;
+        width: 120px;
+        border: 1px solid rgba(0,0,0,0.4);
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    #mapes a {
+        font-size: 13px;
+        color: #404040;
+        display: block;
+        margin: 0;
+        padding: 0;
+        padding: 10px;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(0,0,0,0.25);
+        text-align: center;
+    }
+
+    #mapes a:last-child {
+        border: none;
+    }
+
+    #mapes a:hover {
+        background-color: #f8f8f8;
+        color: #404040;
+    }
+
+    #mapes a.active {
+        background-color: #3887be;
+        color: #ffffff;
+    }
+
+    #mapes a.active:hover {
+        background: #3074a4;
+    }
 
     #titol {
         font-size: 12;
         font-family: arial;
         text-align: center;
         border: solid 1px;
-    }
-    #mapes {
-        position: absolute;
-        background: #dc9494;
-        padding: 5px;
-        font-family: 'Open Sans', sans-serif;
-        font-size: 10px;
-        border: solid 1px
     }
 
 </style>
@@ -78,33 +112,21 @@
         <h1>Rutes btt</h1>
     </div>
 </nav>
-<div id='mapes'>
-    <input id='outdoors' type='radio' name='rtoggle' value='basic' checked='checked'>
-    <label for='basic'>topo</label>
-    <input id='satellite' type='radio' name='rtoggle' value='satellite'>
-    <label for='satellite'>orto</label>
-</div>
+<nav id="mapes">
+    <div id="titol">
+        <h1>Estil de mapa</h1>
+    </div>
+</nav>
 <script>
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiamFiZWw4OCIsImEiOiJjamNqZ3A4MTMyZGRnMzNydnRnMWxiczdpIn0.iK-BBbhPGiRSvYScbeTe9Q';
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/outdoors-v9',
+    id:'mapa',
+    style: 'mapbox://styles/jabel88/cjdlcvimj0jwk2so215hyfdqm',
     zoom: 11,
     center: [2.517929,41.817128]
 });
-
-var mapes = document.getElementById('mapes');
-var inputs = mapes.getElementsByTagName('input');
-
-function switchLayer(mapes) {
-    var mapesId = mapes.target.id;
-    map.setStyle('mapbox://styles/mapbox/'+mapesId+'-v9');
-}
-
-for (var i = 0; i < inputs.length; i++) {
-    inputs[i].onclick = switchLayer;
-}
 
 map.on('load', function () {
     map.addSource('st_segimon', {
@@ -166,6 +188,18 @@ map.on('load', function () {
             'line-width': 4
         }
     });
+    map.addSource('orto', {
+        type: 'raster',
+        url: 'mapbox://mapbox.satellite'
+    });
+    map.addLayer({
+        'id': 'orto',
+        'type': 'raster',
+        'source': 'orto',
+        'layout': {
+            'visibility': 'none'
+        }
+    });
 
     map.on('click', 'st segimon', function (e) {
         new mapboxgl.Popup()
@@ -214,7 +248,7 @@ map.on('load', function () {
 
 });
 
-var toggleableLayerIds = [ 'coll de te', 'st segimon', 'matagalls' ];
+var toggleableLayerIds = [ 'coll de te', 'st segimon', 'matagalls'];
 
 for (var i = 0; i < toggleableLayerIds.length; i++) {
     var id = toggleableLayerIds[i];
@@ -241,6 +275,36 @@ for (var i = 0; i < toggleableLayerIds.length; i++) {
     };
 
     var layers = document.getElementById('menu');
+    layers.appendChild(link);
+}
+
+var toggleableLayerIds = [ 'orto' ];
+
+for (var i = 0; i < toggleableLayerIds.length; i++) {
+    var id = toggleableLayerIds[i];
+
+    var link = document.createElement('a');
+    link.href = '#';
+    link.className = 'active';
+    link.textContent = id;
+
+    link.onclick = function (e) {
+        var clickedLayer = this.textContent;
+        e.preventDefault();
+        e.stopPropagation();
+
+        var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+
+        if (visibility === 'visible') {
+            map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+            this.className = '';
+        } else {
+            this.className = 'active';
+            map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+        }
+    };
+
+    var layers = document.getElementById('mapes');
     layers.appendChild(link);
 }
 
