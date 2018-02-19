@@ -1,0 +1,316 @@
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Rutes btt</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.0/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+<style>
+    #menu {
+        background: #a3c6d4;
+        position: absolute;
+        z-index: 1;
+        top: 10px;
+        right: 45px;
+        border-radius: 3px;
+        width: 100px;
+        border: 1px solid rgba(0,0,0,0.4);
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    #menu a {
+        font-size: 13px;
+        color: #404040;
+        display: block;
+        margin: 0;
+        padding: 0;
+        padding: 10px;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(0,0,0,0.25);
+        text-align: center;
+    }
+
+    #menu a:last-child {
+        border: none;
+    }
+
+    #menu a:hover {
+        background-color: #f8f8f8;
+        color: #404040;
+    }
+
+    #menu a.active {
+        background-color: #3887be;
+        color: #ffffff;
+    }
+
+    #menu a.active:hover {
+        background: #3074a4;
+    }
+    #mapes {
+        background: #a3c6d4;
+        position: relative;
+        z-index: 1;
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        border-radius: 3px;
+        width: 100px;
+        border: 1px solid rgba(0,0,0,0.4);
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    #mapes a {
+        font-size: 13px;
+        color: #404040;
+        display: block;
+        margin: 0;
+        padding: 0;
+        padding: 10px;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(0,0,0,0.25);
+        text-align: center;
+    }
+
+    #mapes a:last-child {
+        border: none;
+    }
+
+    #mapes a:hover {
+        background-color: #f8f8f8;
+        color: #404040;
+    }
+
+    #mapes a.active {
+        background-color: #3887be;
+        color: #ffffff;
+    }
+
+    #mapes a.active:hover {
+        background: #3074a4;
+    }
+
+    #titol {
+        font-size: 10px;
+        font-family: arial;
+        text-align: center;
+        border: solid 1px;
+    }
+
+</style>
+<div id="map"></div>
+<nav id="menu">
+    <div id="titol">
+        <h1>Rutes btt</h1>
+    </div>
+</nav>
+<nav id="mapes">
+    <div id="titol">
+        <h1>Estil de mapa</h1>
+    </div>
+</nav>
+<script>
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiamFiZWw4OCIsImEiOiJjamNqZ3A4MTMyZGRnMzNydnRnMWxiczdpIn0.iK-BBbhPGiRSvYScbeTe9Q';
+var map = new mapboxgl.Map({
+    container: 'map',
+    id:'mapa',
+    style: 'mapbox://styles/jabel88/cjdlcvimj0jwk2so215hyfdqm',
+    zoom: 11,
+    center: [2.517929,41.817128]
+});
+
+map.on('load', function () {
+    map.addSource('orto', {
+        type: 'raster',
+        url: 'mapbox://mapbox.satellite'
+    });
+    map.addLayer({
+        'id': 'orto',
+        'type': 'raster',
+        'source': 'orto',
+        'layout': {
+            'visibility': 'none'
+        }
+    });
+
+    map.addSource('st_segimon', {
+        type: 'vector',
+        url: 'mapbox://jabel88.5emxtbx9'
+    });
+    map.addLayer({
+        'id': 'st segimon',
+        'type': 'line',
+        'source': 'st_segimon',
+        'layout': {
+            'visibility': 'none',
+            'line-join': 'round',
+            'line-cap': 'round'
+        },
+        'paint': {
+            'line-color': '#ff0000',
+            'line-width': 4 
+        },
+        'source-layer': 'st_segimon-bjyu24'
+    });
+
+    map.addSource('coll_de_te', {
+        type: 'vector',
+        url: 'mapbox://jabel88.d4s56gef'
+    });
+    map.addLayer({
+        'id': 'coll de te',
+        'type': 'line',
+        'source': 'coll_de_te',
+        'source-layer': 'coll_de_te-a0dzyf',
+        'layout': {
+            'visibility': 'none',
+            'line-join': 'round',
+            'line-cap': 'round'
+        },
+        'paint': {
+            'line-color': '#ff0000',
+            'line-width': 4
+        }
+    });
+
+    map.addSource('matagalls', {
+        type: 'vector',
+        url: 'mapbox://jabel88.biq146ve'
+    });
+    map.addLayer({
+        'id': 'matagalls',
+        'type': 'line',
+        'source': 'matagalls',
+        'source-layer': 'matagalls-23fywj',
+        'layout': {
+            'visibility': 'none',
+            'line-join': 'round',
+            'line-cap': 'round'
+        },
+        'paint': {
+            'line-color': '#ff0000',
+            'line-width': 4
+        }
+    });
+   
+
+    map.on('click', 'st segimon', function (e) {
+        new mapboxgl.Popup()
+            .setLngLat(e.lngLat)
+            .setHTML("<h1>"+ 'Ruta Sant Segimon'+ "</h1><p>"+ 'Ruta de 31 km que transcorre per les ermites de Sta. Bàrbara, Sant Segimon i Sant Romà' +"</p>")
+            .addTo(map);
+        });
+
+        map.on('mouseenter', 'st segimon', function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    map.on('mouseleave', 'st segimon', function () {
+        map.getCanvas().style.cursor = '';
+    });
+
+    map.on('click', 'coll de te', function (e) {
+        new mapboxgl.Popup()
+            .setLngLat(e.lngLat)
+            .setHTML("<h1>"+ 'Ruta Coll de Te'+ "</h1><p>"+ 'Ruta de 41 km que puja cap al montseny per Arbúcies seguin la pista de Can Garolera, un camí que ens ofereix espectaculars vistes de les agudes i de la zona de les Guilleries' +"</p>")
+            .addTo(map);
+        });
+
+        map.on('mouseenter', 'coll de te', function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    map.on('mouseleave', 'coll de te', function () {
+        map.getCanvas().style.cursor = '';
+    });
+
+    map.on('click', 'matagalls', function (e) {
+        new mapboxgl.Popup()
+            .setLngLat(e.lngLat)
+            .setHTML("<h1>"+ 'Ruta Matagalls'+ "</h1><p>"+ 'Ruta de 49 km que puja cap al montseny per la zona del vidal i arriba fins el matagalls, segurament la ruta més dura de totes.' +"</p>")
+            .addTo(map);
+        });
+
+        map.on('mouseenter', 'matagalls', function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    map.on('mouseleave', 'matagalls', function () {
+        map.getCanvas().style.cursor = '';
+    });
+
+});
+
+var toggleableLayerIds = [ 'coll de te', 'st segimon', 'matagalls'];
+
+for (var i = 0; i < toggleableLayerIds.length; i++) {
+    var id = toggleableLayerIds[i];
+
+    var link = document.createElement('a');
+    link.href = '#';
+    link.className = 'active';
+    link.textContent = id;
+
+    link.onclick = function (e) {
+        var clickedLayer = this.textContent;
+        e.preventDefault();
+        e.stopPropagation();
+
+        var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+
+        if (visibility === 'visible') {
+            map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+            this.className = '';
+        } else {
+            this.className = 'active';
+            map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+        }
+    };
+
+    var layers = document.getElementById('menu');
+    layers.appendChild(link);
+}
+
+var toggleableLayerIds = [ 'orto' ];
+
+for (var i = 0; i < toggleableLayerIds.length; i++) {
+    var id = toggleableLayerIds[i];
+
+    var link = document.createElement('a');
+    link.href = '#';
+    link.className = 'active';
+    link.textContent = id;
+
+    link.onclick = function (e) {
+        var clickedLayer = this.textContent;
+        e.preventDefault();
+        e.stopPropagation();
+
+        var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+
+        if (visibility === 'visible') {
+            map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+            this.className = '';
+        } else {
+            this.className = 'active';
+            map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+        }
+    };
+
+    var layers = document.getElementById('mapes');
+    layers.appendChild(link);
+}
+map.addControl(new mapboxgl.NavigationControl());
+</script>
+
+</body>
+</html>
